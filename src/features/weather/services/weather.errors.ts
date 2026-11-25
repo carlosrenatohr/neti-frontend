@@ -2,7 +2,7 @@ import type { WeatherError, WeatherErrorCode } from "@/features/weather/types/we
 
 const MESSAGES: Record<WeatherErrorCode, string> = {
   INVALID_CITY: "Escribe el nombre de una ciudad.",
-  CITY_NOT_FOUND: "No encontramos esa ciudad. Revisa el nombre e inténtalo de nuevo.",
+  CITY_NOT_FOUND: "No encontramos esa ciudad. Revisa cómo la escribiste o elige una sugerencia.",
   INVALID_API_KEY: "El servicio de clima no está configurado correctamente.",
   RATE_LIMITED: "Hay demasiadas consultas ahora mismo. Espera unos segundos.",
   PROVIDER_UNAVAILABLE: "El servicio de clima no está disponible. Inténtalo más tarde.",

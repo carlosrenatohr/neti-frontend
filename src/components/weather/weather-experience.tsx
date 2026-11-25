@@ -29,7 +29,7 @@ export function WeatherExperience() {
           <span className="brand__name">Atmos</span>
         </Link>
         <div className="topbar__actions">
-          <p className="topbar__note">Clima actual · OpenWeather</p>
+          <p className="topbar__note">Clima en vivo · OpenWeather</p>
           <ThemeToggle />
         </div>
       </header>
@@ -43,8 +43,8 @@ export function WeatherExperience() {
             <em>ahora.</em>
           </h1>
           <p className="intro__copy">
-            Una lectura directa del tiempo en cualquier ciudad. Sin adornos, sin pronósticos: solo
-            lo que está pasando ahí arriba.
+            Una lectura directa del clima en cualquier ciudad. Sin adornos y sin pronósticos: solo
+            lo que está pasando allá arriba.
           </p>
           <WeatherSearch
             onSearch={search}
@@ -62,7 +62,7 @@ export function WeatherExperience() {
       </main>
 
       <footer className="footer">
-        <p>Atmos · una lectura del tiempo</p>
+        <p>Atmos · una lectura del clima</p>
         <p className="footer__meta">Datos meteorológicos de OpenWeather</p>
       </footer>
     </div>

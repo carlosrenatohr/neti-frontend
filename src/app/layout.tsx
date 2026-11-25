@@ -25,7 +25,8 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Atmos — Clima actual",
-  description: "Consulta la temperatura, la humedad y el estado del cielo en cualquier ciudad.",
+  description:
+    "Revisa la temperatura, la humedad y el estado del cielo en cualquier ciudad de Nicaragua y del mundo.",
 };
 
 export const viewport: Viewport = {

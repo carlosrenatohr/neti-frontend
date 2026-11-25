@@ -116,7 +116,7 @@ export function WeatherSearch({ onSearch, isLoading, hasError }: WeatherSearchPr
         >
           {hasError
             ? "Revisa la ciudad o elige una sugerencia"
-            : "Elige una sugerencia o presiona Enter"}
+            : "Elige una ciudad de la lista o presiona Enter"}
         </span>
       </div>
 

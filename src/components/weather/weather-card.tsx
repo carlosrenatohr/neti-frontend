@@ -46,7 +46,7 @@ export function WeatherCard({ weather }: WeatherCardProps) {
       />
 
       <p className="weather-card__source">
-        Datos de OpenWeather · {formatTemperature(weather.feelsLike)} de sensación térmica
+        Datos de OpenWeather · Sensación de {formatTemperature(weather.feelsLike)}
       </p>
     </article>
   );

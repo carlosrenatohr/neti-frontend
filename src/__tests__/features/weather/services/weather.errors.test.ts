@@ -10,7 +10,7 @@ describe("weather error mapping", () => {
       body: {
         error: {
           code: "CITY_NOT_FOUND",
-          message: "No encontramos esa ciudad. Revisa el nombre e inténtalo de nuevo.",
+          message: "No encontramos esa ciudad. Revisa cómo la escribiste o elige una sugerencia.",
         },
       },
     });

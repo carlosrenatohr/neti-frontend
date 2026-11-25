@@ -32,9 +32,9 @@ export function WeatherState({ variant, message }: WeatherStateProps) {
         </div>
         <div className="state__body">
           <p className="eyebrow">Lectura interrumpida</p>
-          <h2>No llegó el parte.</h2>
+          <h2>No llegó el reporte.</h2>
           <p className="state__message">{message}</p>
-          <p className="state__note">Prueba con otra ciudad o vuelve a intentarlo en un momento.</p>
+          <p className="state__note">Prueba con otra ciudad o inténtalo de nuevo en un momento.</p>
         </div>
       </div>
     );
@@ -51,7 +51,7 @@ export function WeatherState({ variant, message }: WeatherStateProps) {
         <p className="eyebrow">Sin lectura</p>
         <h2>El cielo aún está en blanco.</h2>
         <p className="state__message">
-          Busca una ciudad para ver la temperatura, la humedad y el carácter del día.
+          Escribe una ciudad para ver la temperatura, la humedad y cómo va el día.
         </p>
       </div>
     </div>
