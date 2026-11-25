@@ -5,6 +5,8 @@ const createJestConfig = nextJest({ dir: "./" });
 const config = {
   coverageProvider: "v8",
   testEnvironment: "jsdom",
+  // -- UI flows type and click through jsdom; keep a slow machine from failing them --
+  testTimeout: 15000,
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
