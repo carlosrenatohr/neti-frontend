@@ -28,6 +28,12 @@ The base surface is a pale mineral sky (`#dfe7e2`), with deep green-black ink (`
 
 A single soft orb sits behind the page and drifts slowly. It is the only atmospheric decoration. There are no grid overlays, glass panels used as a default, or stock weather photos.
 
+## Themes
+
+Light is the default. A half-circle control in the top bar switches to a mineral night palette: deep green-black surfaces, warm off-white ink and the same ochre accent tuned brighter for contrast. Every condition tint has a dark counterpart, so the reading still colors the page.
+
+The choice is stored in a cookie and rendered before the first paint. Both palettes keep the same hierarchy, spacing and contrast targets; the toggle follows the system preference until the user makes an explicit choice.
+
 ## Layout
 
 Desktop uses a two-column asymmetry: the statement and search on the left, the reading on the right. The reading card is a bordered sheet with corner ticks, not a floating rounded card. Mobile collapses to one column, keeps the headline large, and turns the humidity meter into a full-width row.
@@ -43,6 +49,7 @@ The reading is the focal point:
 ## States
 
 - **Idle:** a crosshair instrument and an invitation to search.
+- **Suggestions:** a list under the field with the city name and country; the active option is marked and driven by the keyboard.
 - **Loading:** the same instrument with a sweeping arc and skeleton text.
 - **Success:** the full reading, with condition-specific color and icon.
 - **Error:** a signal mark and a plain-language message with a recovery suggestion.
@@ -64,8 +71,10 @@ All motion uses transform or opacity and stops under `prefers-reduced-motion`.
 
 - skip link to the main region
 - one `h1`, one `h2` per reading
+- combobox semantics for suggestions: arrow keys, Enter, Escape and `aria-activedescendant`
 - labelled search field and native submit button
 - visible focus ring on every interactive element
+- theme toggle with an explicit accessible name
 - live region for results and errors
 - icon is decorative and hidden from assistive technology
 - error is not communicated by color alone

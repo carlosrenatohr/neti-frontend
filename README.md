@@ -1,6 +1,6 @@
 # Atmos
 
-A small weather app. You type a city, it returns the current temperature, humidity and sky description from OpenWeatherMap.
+A small weather app. You type a city, it suggests real places, and it returns the current temperature, humidity and sky description from OpenWeatherMap. It has a light and a dark theme.
 
 The interface is in Spanish. Code, tests and documentation are in English.
 
@@ -45,7 +45,14 @@ pnpm test:coverage     # enforce coverage thresholds
 
 Jest is configured with a global 80% floor for statements, branches, functions and lines. Tests mock `fetch`; they do not need network access or a real API key.
 
-The suite covers successful searches, empty and invalid city input, city-not-found, bad credentials, rate limiting, provider failures, network errors, timeouts, malformed responses, loading state, repeated searches and stale-response protection.
+The suite covers successful searches, city suggestions, empty and invalid city input, city-not-found, bad credentials, rate limiting, provider failures, network errors, timeouts, malformed responses, loading state, repeated searches, stale-response protection, theme persistence and keyboard selection.
+
+## Features
+
+- City autocomplete backed by OpenWeatherMap geocoding, limited to five matches and resolved on the server.
+- Current temperature, feels-like temperature, humidity, wind and condition description.
+- Light and dark themes. The first visit follows the system preference; the toggle stores the choice in a cookie and the server renders it before paint.
+- Keyboard support for the suggestion list: arrow keys, Enter and Escape.
 
 ## Quality checks
 
@@ -66,34 +73,52 @@ docker build -t atmos-weather .
 docker run --rm -p 3000:3000 --env-file .env.local atmos-weather
 ```
 
-The API key is read at runtime. It is never copied into the image or sent to the browser.
+The API key is read at runtime. It is never copied into the image or sent to the browser. The container respects an injected `PORT`, so the same image works locally and on a platform that assigns its own port.
+
+## Deploy
+
+The repository includes a Dockerfile that can run on a container platform. The intended free preview target is [Render](https://render.com/):
+
+1. Create a **Web Service** from this repository and choose the Docker runtime.
+2. Add `OPENWEATHER_API_KEY` as an environment variable. Do not commit it.
+3. Let Render inject `PORT`; the image already binds to `0.0.0.0`.
+4. Use the generated `onrender.com` URL, or attach a custom domain.
+
+Render's free instance sleeps after 15 minutes without traffic and takes about a minute to wake. It is a preview target, not an always-on production host; a paid instance removes the sleep. See [Render's free plan limits](https://render.com/docs/free).
 
 ## How it works
 
 ```text
 Browser
-  └── GET /api/weather?city=Madrid
+  ├── GET /api/cities?query=Manag
+  │     └── geocoding.service.ts
+  │           └── OpenWeatherMap Geocoding API
+  └── GET /api/weather?city=Managua,%20NI
         └── weather.service.ts
               └── OpenWeatherMap Current Weather API
 ```
 
 - `src/app/api/weather/route.ts` validates the query and returns the internal JSON contract.
+- `src/app/api/cities/route.ts` validates the partial name and returns at most five suggestions.
 - `src/features/weather/services/weather.service.ts` owns the provider URL, timeout and error mapping.
-- `weather.schema.ts` and `open-weather.schema.ts` validate input and provider responses with Zod.
+- `src/features/weather/services/geocoding.service.ts` owns the geocoding call and removes duplicate matches.
+- `weather.schema.ts`, `geocoding.schema.ts` and `open-weather.schema.ts` validate input and provider responses with Zod.
 - `weather.mapper.ts` turns the provider payload into the model the UI uses.
-- `use-weather.ts` handles loading, errors, aborts and stale responses.
+- `use-weather.ts` handles loading, errors, aborts and stale responses; `use-city-suggestions.ts` debounces and cancels suggestion requests.
+- `src/lib/theme.ts` and `theme-toggle.tsx` keep the light/dark choice in a cookie.
 - The provider key is only read by `src/lib/env.ts` on the server. There are no `NEXT_PUBLIC_` secrets.
 
-The route is dynamic and responses are sent with `Cache-Control: no-store`; current weather should not be cached by accident.
+The routes are dynamic and responses are sent with `Cache-Control: no-store`; current weather should not be cached by accident.
 
 ## Project layout
 
 ```text
 src/
   app/                 routes, layout and global styles
-  components/weather/  search, result, icon and state components
-  features/weather/    schemas, service, mapper, hook and utilities
-  lib/                 server environment access
+  components/theme/    light and dark toggle
+  components/weather/  search, suggestions, result, icon and state components
+  features/weather/    schemas, services, mapper, hooks and utilities
+  lib/                 server environment access and theme cookie
   __tests__/           unit and component tests
 docs/
   architecture.md      boundaries and error contract
@@ -102,9 +127,11 @@ docs/
 ## Known limitations
 
 - Only current weather is shown. There is no forecast, radar, history, geolocation or saved cities.
+- Suggestions depend on OpenWeatherMap geocoding; there is no bundled city list and no offline mode.
 - A valid OpenWeatherMap key is required for live data. The repository does not include one.
 - The search result is not stored in the URL, so a reading cannot be deep-linked.
 - The app uses OpenWeatherMap's Spanish descriptions when the provider supplies them; some locations may fall back to English.
+- The free Render preview sleeps after inactivity, so the first request after a quiet period can take about a minute.
 - The automated audit reports two moderate advisories in Jest's transitive `glob`/`minimatch` dependencies. They are development-only and have no runtime exposure. No patched Jest release is available at the pinned version.
 
 ## Why the versions are pinned

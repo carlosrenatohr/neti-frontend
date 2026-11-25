@@ -29,7 +29,9 @@ The browser talks to a server route that holds the OpenWeatherMap credential. Th
 ## Capabilities and Constraints
 
 - Search the current weather for a city.
+- Suggest real cities while typing, with country context and keyboard selection.
 - Show temperature in Celsius, humidity and the provider description.
+- Offer light and dark themes, following the system preference by default.
 - Support empty input, unknown city, API, network and timeout failures with safe messages.
 - Allow repeated searches and prevent stale responses from replacing a newer reading.
 - Use OpenWeatherMap Current Weather API with metric units and Spanish descriptions.
