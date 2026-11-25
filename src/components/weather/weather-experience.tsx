@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { WeatherCard } from "@/components/weather/weather-card";
 import { WeatherSearch } from "@/components/weather/weather-search";
 import { WeatherState } from "@/components/weather/weather-state";
@@ -27,7 +28,10 @@ export function WeatherExperience() {
           </span>
           <span className="brand__name">Atmos</span>
         </Link>
-        <p className="topbar__note">Clima actual · OpenWeather</p>
+        <div className="topbar__actions">
+          <p className="topbar__note">Clima actual · OpenWeather</p>
+          <ThemeToggle />
+        </div>
       </header>
 
       <main className="page" id="weather-main" tabIndex={-1}>

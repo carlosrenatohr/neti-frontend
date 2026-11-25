@@ -1,17 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #10231d;
-  --ink-soft: #405a50;
-  --paper: #f4f5ec;
-  --paper-strong: #fbfbf4;
-  --line: rgba(16, 35, 29, 0.18);
-  --line-strong: rgba(16, 35, 29, 0.34);
-  --sky: #dfe7e2;
-  --orb: #f1cf7a;
-  --accent: #b67822;
-  --signal: #c54f38;
-  --shadow: 0 28px 70px rgba(16, 35, 29, 0.1);
+  color-scheme: light dark;
+  --ink: light-dark(#10231d, #e8efe9);
+  --ink-soft: light-dark(#405a50, #a9bcb2);
+  --paper: light-dark(#f4f5ec, #131a17);
+  --paper-strong: light-dark(#fbfbf4, #18211d);
+  --line: light-dark(rgba(16, 35, 29, 0.18), rgba(232, 239, 233, 0.16));
+  --line-strong: light-dark(rgba(16, 35, 29, 0.34), rgba(232, 239, 233, 0.32));
+  --sky: light-dark(#dfe7e2, #101713);
+  --orb: light-dark(#f1cf7a, #3b3423);
+  --accent: light-dark(#b67822, #d9a45a);
+  --signal: light-dark(#c54f38, #e5836d);
+  --shadow: light-dark(0 28px 70px rgba(16, 35, 29, 0.1), 0 28px 70px rgba(0, 0, 0, 0.45));
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 * {
@@ -20,7 +29,6 @@
 
 html {
   background: var(--sky);
-  color-scheme: light;
 }
 
 body {
@@ -77,9 +85,9 @@ a {
 }
 
 .app-shell {
-  --sky: #dfe7e2;
-  --orb: #f1cf7a;
-  --accent: #b67822;
+  --sky: light-dark(#dfe7e2, #101713);
+  --orb: light-dark(#f1cf7a, #3b3423);
+  --accent: light-dark(#b67822, #d9a45a);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -90,41 +98,41 @@ a {
 }
 
 .app-shell[data-condition="clear"] {
-  --sky: #efe4c8;
-  --orb: #f4c95d;
-  --accent: #a86b13;
+  --sky: light-dark(#efe4c8, #2a2416);
+  --orb: light-dark(#f4c95d, #5c4a1c);
+  --accent: light-dark(#a86b13, #e0b06a);
 }
 
 .app-shell[data-condition="clouds"] {
-  --sky: #d8dfdc;
-  --orb: #e8e2cc;
-  --accent: #526a61;
+  --sky: light-dark(#d8dfdc, #1a2420);
+  --orb: light-dark(#e8e2cc, #2e3a34);
+  --accent: light-dark(#526a61, #9fb5ab);
 }
 
 .app-shell[data-condition="rain"],
 .app-shell[data-condition="drizzle"] {
-  --sky: #cbdad6;
-  --orb: #7fa7a0;
-  --accent: #2f6f68;
+  --sky: light-dark(#cbdad6, #14211f);
+  --orb: light-dark(#7fa7a0, #24514c);
+  --accent: light-dark(#2f6f68, #7fc4bc);
 }
 
 .app-shell[data-condition="thunderstorm"] {
-  --sky: #d5d3dd;
-  --orb: #8e86ad;
-  --accent: #5b4b8a;
+  --sky: light-dark(#d5d3dd, #1d1a26);
+  --orb: light-dark(#8e86ad, #4a4170);
+  --accent: light-dark(#5b4b8a, #b7a6e8);
 }
 
 .app-shell[data-condition="snow"] {
-  --sky: #e4edef;
-  --orb: #b9d3dc;
-  --accent: #4a7f95;
+  --sky: light-dark(#e4edef, #16232a);
+  --orb: light-dark(#b9d3dc, #2f4b57);
+  --accent: light-dark(#4a7f95, #8fc3d8);
 }
 
 .app-shell[data-condition="mist"],
 .app-shell[data-condition="unknown"] {
-  --sky: #e1e3dc;
-  --orb: #c8c6b3;
-  --accent: #6b756f;
+  --sky: light-dark(#e1e3dc, #1b201d);
+  --orb: light-dark(#c8c6b3, #3a3c33);
+  --accent: light-dark(#6b756f, #a9b3ac);
 }
 
 .atmosphere {
@@ -213,6 +221,47 @@ a {
   text-transform: uppercase;
 }
 
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
 .page {
   position: relative;
   scroll-margin-top: 24px;
@@ -293,7 +342,7 @@ a {
 }
 
 .search__hint--error {
-  color: #8f3525;
+  color: light-dark(#8f3525, #f0a08d);
   text-transform: none;
 }
 
