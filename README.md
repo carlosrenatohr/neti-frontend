@@ -125,6 +125,17 @@ docs/
   architecture.md      boundaries and error contract
 ```
 
+## Manual smoke test
+
+No end-to-end suite is committed. Run these checks against the running app:
+
+1. Open `/`. The search field shows `Managua, Nicaragua` as its placeholder.
+2. Type `Manag`. A suggestion for `Managua — Nicaragua` appears; the list closes with `Escape`.
+3. Select the suggestion with the mouse, then repeat with `ArrowDown` + `Enter`. The reading shows Managua and a humidity value.
+4. Toggle the theme in the top bar. The whole page changes palette; reload and confirm the choice survives.
+5. Resize to 320 px and 390 px. There is no horizontal scroll and the search button spans the column.
+6. Submit an unknown city. The error is announced, uses text (not color alone), and offers a next step.
+
 ## Known limitations
 
 - Only current weather is shown. There is no forecast, radar, history, geolocation or saved cities.
