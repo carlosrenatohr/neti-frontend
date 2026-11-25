@@ -49,7 +49,7 @@ The suite covers successful searches, city suggestions, empty and invalid city i
 
 ## Features
 
-- City autocomplete backed by OpenWeatherMap geocoding, limited to five matches and resolved on the server.
+- City autocomplete backed by a short curated list of common cities plus OpenWeatherMap geocoding, limited to five matches and resolved on the server.
 - Current temperature, feels-like temperature, humidity, wind and condition description.
 - Light and dark themes. The first visit follows the system preference; the toggle stores the choice in a cookie and the server renders it before paint.
 - Keyboard support for the suggestion list: arrow keys, Enter and Escape.
@@ -101,7 +101,8 @@ Browser
 - `src/app/api/weather/route.ts` validates the query and returns the internal JSON contract.
 - `src/app/api/cities/route.ts` validates the partial name and returns at most five suggestions.
 - `src/features/weather/services/weather.service.ts` owns the provider URL, timeout and error mapping.
-- `src/features/weather/services/geocoding.service.ts` owns the geocoding call and removes duplicate matches.
+- `src/features/weather/data/featured-cities.ts` keeps a short list of common cities, because the provider only matches prefixes.
+- `src/features/weather/services/geocoding.service.ts` owns the geocoding call, merges both sources and removes duplicates.
 - `weather.schema.ts`, `geocoding.schema.ts` and `open-weather.schema.ts` validate input and provider responses with Zod.
 - `weather.mapper.ts` turns the provider payload into the model the UI uses.
 - `use-weather.ts` handles loading, errors, aborts and stale responses; `use-city-suggestions.ts` debounces and cancels suggestion requests.
@@ -127,7 +128,7 @@ docs/
 ## Known limitations
 
 - Only current weather is shown. There is no forecast, radar, history, geolocation or saved cities.
-- Suggestions depend on OpenWeatherMap geocoding; there is no bundled city list and no offline mode.
+- Suggestions combine a curated list of common cities with OpenWeatherMap geocoding; there is no offline mode.
 - A valid OpenWeatherMap key is required for live data. The repository does not include one.
 - The search result is not stored in the URL, so a reading cannot be deep-linked.
 - The app uses OpenWeatherMap's Spanish descriptions when the provider supplies them; some locations may fall back to English.

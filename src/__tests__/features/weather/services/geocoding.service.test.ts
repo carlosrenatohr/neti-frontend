@@ -41,7 +41,7 @@ describe("searchCities", () => {
   it("requests the provider limit and normalizes the matches", async () => {
     fetchMock.mockResolvedValueOnce(jsonResponse(providerPayload));
 
-    await expect(searchCities("Managua")).resolves.toEqual([
+    await expect(searchCities("Springfield")).resolves.toEqual([
       { id: "12.13,-86.25", name: "Managua", country: "NI", lat: 12.1328, lon: -86.2504 },
       {
         id: "10.00,-85.00",
@@ -54,10 +54,47 @@ describe("searchCities", () => {
     ]);
 
     const [url, options] = fetchMock.mock.calls[0] as [URL, RequestInit];
-    expect(url.searchParams.get("q")).toBe("Managua");
+    expect(url.searchParams.get("q")).toBe("Springfield");
     expect(url.searchParams.get("limit")).toBe(String(GEOCODING_LIMIT));
     expect(url.searchParams.get("appid")).toBe("test-key");
     expect(options.cache).toBe("no-store");
+  });
+
+  it("prepends curated matches so partial names still find common cities", async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse([]));
+
+    const cities = await searchCities("manag");
+
+    expect(cities[0]).toMatchObject({ name: "Managua", country: "NI" });
+  });
+
+  it("ignores accents and case in the curated list", async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse([]));
+
+    const cities = await searchCities("LEON");
+
+    expect(cities[0]).toMatchObject({ name: "León", country: "NI" });
+  });
+
+  it("finds a curated city inside the name, not only at the start", async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse([]));
+
+    const cities = await searchCities("anag");
+
+    expect(cities[0]).toMatchObject({ name: "Managua", country: "NI" });
+  });
+
+  it("keeps one entry when the provider repeats a curated city", async () => {
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse([
+        { name: "Managua", lat: 12.1544, lon: -86.2738, country: "NI", state: "Managua" },
+      ]),
+    );
+
+    const cities = await searchCities("Managua");
+
+    expect(cities.filter((city) => city.name === "Managua")).toHaveLength(1);
+    expect(cities[0]?.lat).toBe(12.136);
   });
 
   it("throws a safe error when the provider rejects the key", async () => {

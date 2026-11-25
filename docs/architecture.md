@@ -63,7 +63,7 @@ Success:
 
 ### `GET /api/cities?query=<partial name>`
 
-Returns at most five matches. `query` must have at least two characters.
+Returns at most five matches. `query` must have at least two characters. A short curated list of common cities is merged ahead of provider results and deduplicated, because the provider only matches prefixes.
 
 ```json
 {
@@ -115,11 +115,12 @@ Provider messages and stack traces are never returned to the browser.
 4. **Explicit error model.** The UI gets a stable code and a safe Spanish message, not the provider response.
 5. **Abort plus request id.** `useWeather` aborts the previous request and ignores any late response from an older search.
 6. **Debounced suggestions.** `useCitySuggestions` waits 280 ms, aborts the previous call and discards results for a replaced query.
-7. **Country-scoped selection.** A chosen suggestion becomes `Name, CC`, which removes the common ambiguity between countries without changing the weather contract.
-8. **Theme before paint.** The chosen theme lives in a cookie; the async layout resolves it on the server and renders `data-theme`, so there is no flash. `light-dark()` supplies both palettes.
-9. **No cache.** Both routes are dynamic and use `no-store`.
-10. **Local state only.** React state is enough; there is no global store or data library.
-11. **Jest at the behavior level.** Tests assert rendered text, status codes and messages, not hook internals.
+7. **Hybrid suggestions.** The provider only matches prefixes, so a short curated list of common cities is merged ahead of provider results and deduplicated. Typing `manag` still finds Managua even though the provider does not.
+8. **Country-scoped selection.** A chosen suggestion becomes `Name, CC`, which removes the common ambiguity between countries without changing the weather contract.
+9. **Theme before paint.** The chosen theme lives in a cookie; the async layout resolves it on the server and renders `data-theme`, so there is no flash. `light-dark()` supplies both palettes.
+10. **No cache.** Both routes are dynamic and use `no-store`.
+11. **Local state only.** React state is enough; there is no global store or data library.
+12. **Jest at the behavior level.** Tests assert rendered text, status codes and messages, not hook internals.
 
 ## Rendering model
 
@@ -127,7 +128,7 @@ The weather experience is a client component. The root layout reads the theme co
 
 ## Testing
 
-- 24 suites, 122 tests.
+- 24 suites, 126 tests.
 - Service and route tests run in the Node environment.
 - Component and hook tests run in jsdom with `user-event`.
 - `fetch` is mocked in every test that would otherwise reach the network.
