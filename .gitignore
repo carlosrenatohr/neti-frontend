@@ -21,6 +21,7 @@ skills-lock.json
 .impeccable/
 .playwright-mcp/
 .codex/
+.codebase-memory/
 
 # logs and os files
 *.log
