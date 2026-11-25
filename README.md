@@ -24,7 +24,7 @@ TypeScript is pinned to 6.0.3 because `typescript-eslint`, used by the official 
 
 ```bash
 nvm use
-corepack enable
+npm install -g pnpm@12.23.0
 pnpm install --frozen-lockfile
 cp .env.example .env.local
 # put a real OpenWeatherMap key in .env.local
