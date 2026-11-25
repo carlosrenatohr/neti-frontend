@@ -1,5 +1,6 @@
 import {
   CONDITION_LABELS,
+  formatCountry,
   formatHumidity,
   formatObservedTime,
   formatTemperature,
@@ -25,5 +26,15 @@ describe("weather formatting", () => {
     expect(CONDITION_LABELS.clear).toBe("Despejado");
     expect(CONDITION_LABELS.thunderstorm).toBe("Tormenta");
     expect(CONDITION_LABELS.unknown).toBe("Variable");
+  });
+
+  it("translates an ISO country code", () => {
+    expect(formatCountry("NI")).toBe("Nicaragua");
+    expect(formatCountry("ni")).toBe("Nicaragua");
+  });
+
+  it("keeps an unknown country code and an empty value safe", () => {
+    expect(formatCountry("")).toBe("");
+    expect(formatCountry("ZZ")).toBeTruthy();
   });
 });

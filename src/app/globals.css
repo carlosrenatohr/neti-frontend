@@ -302,6 +302,76 @@ a {
   gap: 10px;
 }
 
+.search__field {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+
+.search__field .search__input {
+  width: 100%;
+}
+
+.search__menu {
+  position: absolute;
+  top: calc(100% + 2px);
+  right: 0;
+  left: 0;
+  z-index: 10;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-strong);
+  box-shadow: var(--shadow);
+}
+
+.search__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.search__option {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 42px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.search__option:last-child {
+  border-bottom: 0;
+}
+
+.search__option:hover,
+.search__option[aria-selected="true"] {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.search__option-name {
+  overflow-wrap: anywhere;
+  font-size: 0.98rem;
+}
+
+.search__option-meta {
+  flex: 0 0 auto;
+  color: var(--ink-soft);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.search__empty {
+  margin: 0;
+  padding: 12px 14px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
 .search__input {
   flex: 1;
   touch-action: manipulation;
