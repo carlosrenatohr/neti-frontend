@@ -1,6 +1,15 @@
 export type WeatherCondition =
   "clear" | "clouds" | "rain" | "drizzle" | "thunderstorm" | "snow" | "mist" | "unknown";
 
+export interface CitySuggestion {
+  id: string;
+  name: string;
+  state?: string;
+  country: string;
+  lat: number;
+  lon: number;
+}
+
 export interface Weather {
   city: string;
   country: string;
@@ -29,6 +38,10 @@ export type WeatherErrorCode =
 export interface WeatherError {
   code: WeatherErrorCode;
   message: string;
+}
+
+export interface CitySuggestionsResponse {
+  cities: CitySuggestion[];
 }
 
 export interface WeatherSuccessResponse {
