@@ -79,10 +79,12 @@ The API key is read at runtime. It is never copied into the image or sent to the
 
 The repository includes a Dockerfile that can run on a container platform. The intended free preview target is [Render](https://render.com/):
 
-1. Create a **Web Service** from this repository and choose the Docker runtime.
-2. Add `OPENWEATHER_API_KEY` as an environment variable. Do not commit it.
-3. Let Render inject `PORT`; the image already binds to `0.0.0.0`.
-4. Use the generated `onrender.com` URL, or attach a custom domain.
+1. Create a **Web Service** from this repository, choose the Docker runtime and keep the repository root as the context. The defaults `./Dockerfile` and the image `CMD` are correct.
+2. Set the branch to `main` so pushes and merges deploy automatically.
+3. Set the health check path to `/`. It returns the page even when the provider key is missing.
+4. Add `OPENWEATHER_API_KEY` as an environment variable. Do not commit it, pass it as a build argument or expose it with a `NEXT_PUBLIC_` prefix.
+5. Let Render inject `PORT`; the image reads it at runtime and binds to `0.0.0.0`.
+6. Use the generated `onrender.com` URL, or attach a custom domain.
 
 Render's free instance sleeps after 15 minutes without traffic and takes about a minute to wake. It is a preview target, not an always-on production host; a paid instance removes the sleep. See [Render's free plan limits](https://render.com/docs/free).
 

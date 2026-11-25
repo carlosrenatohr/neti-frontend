@@ -7,9 +7,11 @@ coverage
 .agents
 .impeccable
 .playwright-mcp
+.codex
+.codebase-memory
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
 *.log
 *.tsbuildinfo
 Dockerfile
