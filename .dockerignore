@@ -1,0 +1,16 @@
+node_modules
+.next
+out
+coverage
+.git
+.gitignore
+.agents
+.impeccable
+.playwright-mcp
+.env
+.env.local
+.env.*.local
+*.log
+*.tsbuildinfo
+Dockerfile
+.dockerignore
